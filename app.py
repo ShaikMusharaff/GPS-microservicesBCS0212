@@ -1,14 +1,23 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
 @app.route('/location', methods=['GET'])
 def location():
-    data = {
-        "classroom": "Cloud Lab",
-        "latitude": 9.5916,
-        "longitude": 76.5222
-    }
+    latitude = request.args.get('lat')
+    longitude = request.args.get('lon')
+
+    if latitude and longitude:
+        data = {
+            "classroom": "Cloud Lab",
+            "latitude": latitude,
+            "longitude": longitude
+        }
+    else:
+        data = {
+            "error": "Please provide latitude and longitude"
+        }
+
     return jsonify(data)
 
 if __name__ == '__main__':
